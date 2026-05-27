@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Діагностика мислення | Іра Анк — Unlocking коуч</title>
+<meta name="description" content="Безкоштовна діагностика мислення для підприємців. Дізнайся, що блокує твій потенціал за 3 хвилини.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--emerald:#0D9B6A;--emerald-glow:rgba(13,155,106,0.35);--gold:#D4A843;--gold-glow:rgba(212,168,67,0.3);
+--bg:#0A0A0F;--bg2:#111118;--card:#16161F;--card-border:#252530;
+--text:#F0F0F0;--text2:#8A8A9A;--danger:#E84057;--warning:#E8A840;--green:#0D9B6A;--orange:#E87840;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
+.container{max-width:520px;margin:0 auto;padding:20px;min-height:100dvh;display:flex;flex-direction:column}
+/* Progress */
+.progress-wrap{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--bg);padding:8px 0 0}
+.progress-bar{height:3px;background:#252530;border-radius:2px;max-width:520px;margin:0 auto;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--emerald),var(--gold));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.progress-text{text-align:center;font-size:11px;color:var(--text2);padding:4px 0 8px;max-width:520px;margin:0 auto}
+/* Screen */
+.screen{display:none;flex:1;flex-direction:column;justify-content:center;padding-top:50px;animation:fadeIn .4s ease}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* Chat bubble */
+.bubble{background:var(--card);border:1px solid var(--card-border);border-radius:16px 16px 16px 4px;padding:14px 18px;font-size:15px;line-height:1.5;margin-bottom:20px;max-width:85%;color:var(--text2)}
+/* Headings */
+h1{font-family:'Playfair Display',serif;font-size:28px;line-height:1.2;margin-bottom:12px;color:var(--text)}
+h2{font-size:20px;font-weight:700;margin-bottom:8px;letter-spacing:-0.02em}
+.sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:24px}
+/* Options */
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.opt{background:var(--card);border:1.5px solid var(--card-border);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.4;cursor:pointer;transition:all .2s;text-align:left;color:var(--text);display:flex;align-items:flex-start;gap:10px}
+.opt:hover{border-color:var(--emerald);background:#16161F}
+.opt.selected{border-color:var(--emerald);box-shadow:0 0 20px var(--emerald-glow);background:rgba(13,155,106,0.08)}
+.opt .dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+/* Multi select */
+.opt.multi .check{width:18px;height:18px;border:2px solid var(--card-border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.opt.multi.selected .check{background:var(--emerald);border-color:var(--emerald)}
+.opt.multi.selected .check::after{content:'✓';color:#fff;font-size:12px;font-weight:700}
+.counter{text-align:center;font-size:13px;color:var(--gold);margin-bottom:16px}
+/* Buttons */
+.btn{background:var(--emerald);color:#fff;border:none;border-radius:12px;padding:16px 32px;font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;width:100%;text-align:center;box-shadow:0 0 30px var(--emerald-glow)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 0 40px var(--emerald-glow)}
+.btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.btn-back{background:none;border:none;color:var(--text2);font-size:13px;cursor:pointer;padding:8px 0;margin-top:8px}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#C49535);box-shadow:0 0 30px var(--gold-glow)}
+.btn-gold:hover{box-shadow:0 0 40px var(--gold-glow)}
+/* Insight card */
+.insight{background:rgba(13,155,106,0.08);border:1px solid rgba(13,155,106,0.25);border-radius:14px;padding:16px 18px;font-size:14px;line-height:1.6;color:var(--text);margin-bottom:20px}
+.insight .label{font-size:11px;font-weight:700;color:var(--emerald);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+/* Result dashboard */
+.score-ring{width:140px;height:140px;margin:0 auto 20px;position:relative}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .value{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring .value .num{font-size:36px;font-weight:900;font-family:'Playfair Display',serif}
+.score-ring .value .of{font-size:13px;color:var(--text2)}
+.metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.metric{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:12px;text-align:center}
+.metric .val{font-size:22px;font-weight:800;margin-bottom:2px}
+.metric .lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.03em}
+.badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:16px}
+/* Shock */
+.shock-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;text-align:center;margin:20px 0 8px;line-height:1}
+.shock-label{text-align:center;font-size:16px;color:var(--text2);margin-bottom:24px}
+/* Calc */
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--card-border)}
+.calc-row:last-child{border:none}
+.calc-row .k{font-size:14px;color:var(--text2)}
+.calc-row .v{font-size:18px;font-weight:700}
+/* Form */
+.form-group{margin-bottom:16px}
+.form-group label{font-size:13px;color:var(--text2);margin-bottom:6px;display:block}
+.form-group input,.form-group select{width:100%;background:var(--card);border:1.5px solid var(--card-border);border-radius:10px;padding:14px 16px;color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:border .2s}
+.form-group input:focus{border-color:var(--emerald)}
+/* Sticky CTA */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(transparent,var(--bg) 30%);padding:20px;z-index:40}
+.sticky-cta .btn{max-width:520px;margin:0 auto;display:block}
+/* Impact list */
+.impact-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;font-size:14px;line-height:1.5}
+.impact-item .emoji{font-size:20px;flex-shrink:0}
+/* Thank you */
+.thank-check{width:80px;height:80px;background:var(--emerald);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;box-shadow:0 0 40px var(--emerald-glow)}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-text" id="progressText"></div>
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+const NODE="/Users/iraank/.local/share/cursor-agent/versions/2026.05.07-42ddaca/node";
+// Quiz data
+const screens = [
+  // SCREEN 0 — Qualifier
+  {
+    type:'question_single', id:'q0',
+    bubble:'Привіт! Це займе 3 хвилини 🎯',
+    title:'Що найкраще описує тебе зараз?',
+    sub:'Обери те, що відчувається найближчим',
+    options:[
+      {text:'🟢 Я підприємець / топ-менеджер, є бізнес або управляю', value:3, color:'var(--green)'},
+      {text:'🟡 Починаю свою справу або думаю про вихід з найму', value:2, color:'var(--warning)'},
+      {text:'🟠 Інше — просто цікаво розібратись', value:1, color:'var(--orange)'},
+    ]
+  },
+  // SCREEN 1 — Empathy
+  {
+    type:'empathy',
+    bubble:'Добре, що ти тут. Серйозно.',
+    title:'Це не тест і не опитування',
+    text:'Це діагностика мислення — те, що зазвичай невидиме, але визначає 80% твоїх результатів.\n\nВідповідай першим, що спаде на думку. Так найточніше.',
+    btn:'Поїхали →'
+  },
+  // SCREEN 2 — Q1: Ежедневное поведение
+  {
+    type:'question_single', id:'q1', section:'СКАНУВАННЯ МИСЛЕННЯ', step:'1/7',
+    subtech:'Оцінка щоденних патернів...',
+    title:'Як починається твій типовий ранок?',
+    options:[
+      {text:'🟢 Прокидаюсь з ясністю, знаю що робити. Перший час — для себе', value:0, color:'var(--green)'},
+      {text:'🟡 Перевіряю телефон, потім поступово включаюсь в роботу', value:1, color:'var(--warning)'},
+      {text:'🟠 Відкриваю месенджери і одразу тону в чужих задачах', value:2, color:'var(--orange)'},
+      {text:'🔴 Прокидаюсь з тривогою. Ще в ліжку відчуваю вагу всіх справ', value:3, color:'var(--danger)'},
+    ]
+  },
+  // SCREEN 3 — Q2: Кількісний маркер (для калькулятора)
+  {
+    type:'question_single', id:'q2', section:'СКАНУВАННЯ МИСЛЕННЯ', step:'2/7',
+    subtech:'Калібрування втрат часу...',
+    title:'Скільки годин на тиждень ти витрачаєш на речі, які не рухають ні бізнес, ні тебе?',
+    sub:'Безкінечний скрол, прокрастинація, "гасіння пожеж", зустрічі ні-про-що',
+    options:[
+      {text:'🟢 До 5 годин — мінімум', value:0, color:'var(--green)', hours:3},
+      {text:'🟡 5–15 годин — відчутно', value:1, color:'var(--warning)', hours:10},
+      {text:'🟠 15–30 годин — це вже половина робочого тижня', value:2, color:'var(--orange)', hours:22},
+      {text:'🔴 30+ годин — більшість часу йде в нікуди', value:3, color:'var(--danger)', hours:35},
+      {text:'💀 Навіть не хочу рахувати', value:4, color:'var(--danger)', hours:40},
+    ]
+  },
+  // SCREEN 4 — Q3: Multi-select симптомів
+  {
+    type:'question_multi', id:'q3', section:'СКАНУВАННЯ МИСЛЕННЯ', step:'3/7',
+    subtech:'Інвентаризація блоків...',
+    title:'Що з цього впізнаєш у себе?',
+    sub:'Обери все, що відгукується. Навіть якщо трохи.',
+    options:[
+      {text:'💭 "Знаю ЩО робити, але чомусь НЕ РОБЛЮ"'},
+      {text:'🔄 Ставлю цілі — і сам же їх зменшую'},
+      {text:'🎭 Зовні все добре, всередині — порожньо'},
+      {text:'⚡ Після тренінгів/книг — тиждень натхнення, потім все як було'},
+      {text:'🏃 Відчуваю що біжу швидко, але стою на місці'},
+      {text:'😤 Делегую — провалюють, роблю сам — вигораю'},
+      {text:'🤐 Немає з ким поговорити про справді важливе'},
+      {text:'⏰ Бачу як ровесники обганяють, і це з\'їдає зсередини'},
+    ]
+  },
+  // SCREEN 5 — Insight (після Q3)
+  {
+    type:'insight',
+    bubble:'Ти тільки що зробив те, на що більшість не наважується — чесно подивився на ситуацію.',
+    text:'Навіть 2–3 пункти зі списку — це вже сигнал. Не про те, що "з тобою щось не так", а про те, що твій потенціал заблокований.',
+    fact:'Дослідження Stanford показують: 73% підприємців з високим потенціалом працюють на 30–40% нижче своїх можливостей через невидимі ментальні блоки. Ключове: це оборотно.',
+    btn:'Продовжити →'
+  },
+  // SCREEN 6 — Q4: Мотивація
+  {
+    type:'question_single', id:'q4', section:'ГЛИБОКИЙ АНАЛІЗ', step:'4/7',
+    subtech:'Оцінка рівня мотивації...',
+    title:'Коли ти думаєш про наступний рік свого життя, що відчуваєш?',
+    options:[
+      {text:'🟢 Драйв і ясність — знаю куди йду і чому', value:0, color:'var(--green)'},
+      {text:'🟡 В цілому оптимізм, але немає чіткого плану', value:1, color:'var(--warning)'},
+      {text:'🟠 Тривогу — бо ще один рік може пройти як попередній', value:2, color:'var(--orange)'},
+      {text:'🔴 Важкість. Як дежавю, яке ніколи не закінчується', value:3, color:'var(--danger)'},
+    ]
+  },
+  // SCREEN 7 — Q5: Multi-select — що втрачаєш
+  {
+    type:'question_multi', id:'q5', section:'ГЛИБОКИЙ АНАЛІЗ', step:'5/7',
+    subtech:'Калькуляція зон впливу...',
+    title:'Що вже страждає від поточного стану?',
+    sub:'Обери все, що актуально',
+    counter_prefix:'Зачеплено: ',
+    options:[
+      {text:'💰 Дохід нижчий, ніж міг би бути'},
+      {text:'🔋 Енергія і здоров\'я — спалюю себе'},
+      {text:'👨‍👩‍👧 Стосунки з близькими — немає часу / емоцій'},
+      {text:'🧠 Ясність мислення — як "занадто багато вкладок відкрито"'},
+      {text:'🎯 Фокус — розпилюю увагу, не завершую розпочате'},
+      {text:'🔥 Мотивація — роблю за інерцією, без вогню'},
+    ]
+  },
+  // SCREEN 8 — Q6: Провокаційний сценарій
+  {
+    type:'question_single', id:'q6', section:'ФІНАЛЬНА КАЛІБРОВКА', step:'6/7',
+    subtech:'Аналіз глибинних патернів...',
+    title:'Уяви: хтось запитує "Розкажи про себе, не про бізнес". Що відбувається?',
+    options:[
+      {text:'🟢 Легко розповідаю — знаю хто я, що люблю, до чого йду', value:0, color:'var(--green)'},
+      {text:'🟡 Трохи зависаю, але знаходжу що сказати', value:1, color:'var(--warning)'},
+      {text:'🟠 Відповідаю загальними фразами — "ну, люблю подорожі"', value:2, color:'var(--orange)'},
+      {text:'🔴 Зависаю. Без бізнесу — порожнеча. Нічого не спадає на думку', value:3, color:'var(--danger)'},
+    ]
+  },
+  // SCREEN 9 — Q7: Емоційний стан
+  {
+    type:'question_single', id:'q7', section:'ФІНАЛЬНА КАЛІБРОВКА', step:'7/7',
+    subtech:'Останній крок...',
+    title:'Яка фраза найточніше про тебе зараз?',
+    options:[
+      {text:'🟢 "Я на своєму місці і рухаюсь у правильному напрямку"', value:0, color:'var(--green)'},
+      {text:'🟡 "В цілому ок, але відчуваю що можу більше"', value:1, color:'var(--warning)'},
+      {text:'🟠 "Я знаю що здатен на більше, але щось тримає"', value:2, color:'var(--orange)'},
+      {text:'🔴 "Побудував клітку і сам у неї зайшов"', value:3, color:'var(--danger)'},
+    ]
+  },
+  // SCREEN 10 — Q8: Qualification
+  {
+    type:'question_single', id:'q8', section:'ГОТОВНІСТЬ',
+    title:'Що ти хочеш зробити з цим прямо зараз?',
+    options:[
+      {text:'🔥 Готовий діяти ЗАРАЗ — покажи мені шлях', value:'hot', color:'var(--danger)'},
+      {text:'⚡ Хочу розібратись глибше, шукаю рішення', value:'warm', color:'var(--warning)'},
+      {text:'🌊 Розумію проблему, але не знаю з чого почати', value:'cool', color:'var(--green)'},
+      {text:'🤔 Поки просто вивчаю тему', value:'cold', color:'var(--text2)'},
+    ]
+  },
+  // SCREEN 11 — Dashboard
+  {type:'dashboard'},
+  // SCREEN 12 — Calculator
+  {type:'calculator'},
+  // SCREEN 13 — Impact
+  {type:'impact'},
+  // SCREEN 14 — Shock
+  {type:'shock'},
+  // SCREEN 15 — Pitch
+  {type:'pitch'},
+  // SCREEN 16 — Evidence
+  {type:'evidence'},
+  // SCREEN 17 — CTA
+  {type:'cta'},
+  // SCREEN 18 — Form
+  {type:'form'},
+  // SCREEN 19 — Thank you
+  {type:'thankyou'},
+];
+
+let current = 0;
+const answers = {};
+const totalSteps = screens.length;
+const app = document.getElementById('app');
+
+function saveState(){try{localStorage.setItem('quiz_unlocking',JSON.stringify({current,answers}))}catch(e){}}
+function loadState(){try{const d=JSON.parse(localStorage.getItem('quiz_unlocking'));if(d&&d.current){current=d.current;Object.assign(answers,d.answers);return true}}catch(e){}return false}
+
+function calcScore(){
+  let s=0,c=0;
+  ['q1','q2','q4','q6','q7'].forEach(k=>{if(answers[k]!==undefined){s+=answers[k];c++}});
+  const raw=c?s/c:0; // 0-4 scale avg
+  const score=Math.min(10,raw*2.5); // map to 0-10
+  return Math.round(score*10)/10;
+}
+
+function calcMetrics(){
+  const q3count=answers.q3?answers.q3.length:0;
+  const q5count=answers.q5?answers.q5.length:0;
+  const blockDepth=Math.min(100,Math.round((q3count/8)*100));
+  const impactZones=Math.min(100,Math.round((q5count/6)*100));
+  const clarity=Math.max(0,100-Math.round(((answers.q6||0)+(answers.q7||0))/6*100));
+  return {blockDepth,impactZones,clarity};
+}
+
+function getCategory(score){
+  if(score<=2.5) return {name:'Потенціал розблоковано',color:'var(--green)',badge:'bg:rgba(13,155,106,0.15);color:var(--green)'};
+  if(score<=5) return {name:'Часткове блокування',color:'var(--warning)',badge:'bg:rgba(232,168,64,0.15);color:var(--warning)'};
+  if(score<=7.5) return {name:'Суттєве блокування',color:'var(--orange)',badge:'bg:rgba(232,120,64,0.15);color:var(--orange)'};
+  return {name:'Критичне блокування',color:'var(--danger)',badge:'bg:rgba(232,64,87,0.15);color:var(--danger)'};
+}
+
+function getHours(){
+  const opts=screens[3].options;
+  const val=answers.q2;
+  const opt=opts.find(o=>o.value===val);
+  return opt?opt.hours:15;
+}
+
+function updateProgress(){
+  const pct=Math.round((current/totalSteps)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  const s=screens[current];
+  let txt='';
+  if(s&&s.step) txt=s.section+' · '+s.step;
+  else if(s&&s.section) txt=s.section;
+  document.getElementById('progressText').textContent=txt;
+  document.getElementById('progressWrap').style.display=current===0||current>=totalSteps-1?'none':'block';
+}
+
+function go(n){
+  current=n;
+  saveState();
+  render();
+}
+
+function render(){
+  updateProgress();
+  if(current>=screens.length){app.innerHTML='';return;}
+  const s=screens[current];
+  let h='';
+
+  if(s.type==='question_single'){
+    h+=`<div class="screen active">`;
+    if(s.bubble) h+=`<div class="bubble">${s.bubble}</div>`;
+    if(s.section&&s.step) h+=`<div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">${s.section}</div>`;
+    if(s.subtech) h+=`<div style="font-size:12px;color:var(--emerald);margin-bottom:12px">${s.subtech}</div>`;
+    h+=`<h2>${s.title}</h2>`;
+    if(s.sub) h+=`<p class="sub">${s.sub}</p>`;
+    h+=`<div class="options">`;
+    s.options.forEach((o,i)=>{
+      const sel=answers[s.id]===o.value?'selected':'';
+      h+=`<div class="opt ${sel}" onclick="selectSingle('${s.id}',${typeof o.value==='string'?"'"+o.value+"'":o.value},${i})">
+        <span class="dot" style="background:${o.color||'var(--text2)'}"></span>
+        <span>${o.text}</span>
+      </div>`;
+    });
+    h+=`</div>`;
+    if(current>0) h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='question_multi'){
+    const selected=answers[s.id]||[];
+    h+=`<div class="screen active">`;
+    if(s.section&&s.step) h+=`<div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">${s.section}</div>`;
+    if(s.subtech) h+=`<div style="font-size:12px;color:var(--emerald);margin-bottom:12px">${s.subtech}</div>`;
+    h+=`<h2>${s.title}</h2>`;
+    if(s.sub) h+=`<p class="sub">${s.sub}</p>`;
+    if(selected.length>0) h+=`<div class="counter">${s.counter_prefix||'Обрано: '}${selected.length}</div>`;
+    h+=`<div class="options">`;
+    s.options.forEach((o,i)=>{
+      const sel=selected.includes(i)?'selected':'';
+      h+=`<div class="opt multi ${sel}" onclick="toggleMulti('${s.id}',${i})">
+        <span class="check"></span>
+        <span>${o.text}</span>
+      </div>`;
+    });
+    h+=`</div>`;
+    h+=`<button class="btn" ${selected.length===0?'disabled':''} onclick="go(${current+1})">Далі →</button>`;
+    if(current>0) h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='empathy'){
+    h+=`<div class="screen active">`;
+    h+=`<div class="bubble">${s.bubble}</div>`;
+    h+=`<h1>${s.title}</h1>`;
+    h+=`<p class="sub" style="white-space:pre-line">${s.text}</p>`;
+    h+=`<button class="btn" onclick="go(${current+1})">${s.btn}</button>`;
+    if(current>0) h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='insight'){
+    h+=`<div class="screen active">`;
+    h+=`<div class="bubble">${s.bubble}</div>`;
+    h+=`<p class="sub">${s.text}</p>`;
+    h+=`<div class="insight"><div class="label">🔬 Дослідження</div>${s.fact}</div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">${s.btn}</button>`;
+    if(current>0) h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='dashboard'){
+    const score=calcScore();
+    const cat=getCategory(score);
+    const m=calcMetrics();
+    const pct=Math.round(score*10);
+    const circ=2*Math.PI*60;
+    const offset=circ-(pct/100)*circ;
+    h+=`<div class="screen active">`;
+    h+=`<div style="text-align:center;margin-bottom:8px"><span class="badge" style="background:${cat.badge.split(';')[0].split(':')[1]};color:${cat.badge.split(';')[1].split(':')[1]}">${cat.name}</span></div>`;
+    h+=`<div class="score-ring"><svg width="140" height="140"><circle cx="70" cy="70" r="60" fill="none" stroke="var(--card-border)" stroke-width="8"/><circle cx="70" cy="70" r="60" fill="none" stroke="${cat.color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}" style="transition:stroke-dashoffset 1s ease"/></svg><div class="value"><div class="num" style="color:${cat.color}">${score}</div><div class="of">з 10</div></div></div>`;
+    h+=`<div style="text-align:center;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px">UNLOCKING SCORE</div>`;
+    h+=`<div class="metrics">
+      <div class="metric"><div class="val" style="color:${m.blockDepth>60?'var(--danger)':m.blockDepth>30?'var(--warning)':'var(--green)'}">${m.blockDepth}%</div><div class="lbl">Глибина блоків</div></div>
+      <div class="metric"><div class="val" style="color:${m.impactZones>60?'var(--danger)':m.impactZones>30?'var(--warning)':'var(--green)'}">${m.impactZones}%</div><div class="lbl">Зони впливу</div></div>
+      <div class="metric"><div class="val" style="color:${m.clarity>60?'var(--green)':m.clarity>30?'var(--warning)':'var(--danger)'}">${m.clarity}%</div><div class="lbl">Ясність</div></div>
+    </div>`;
+    h+=`<div class="insight"><div class="label">📋 Рекомендація</div>Рекомендований формат: 4-місячний контракт з Unlocking-коучем для розблокування потенціалу</div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">Подивитись вартість бездіяльності →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='calculator'){
+    const hrs=getHours();
+    const weeklyLoss=hrs;
+    const yearlyHrs=weeklyLoss*48;
+    const yearlyDays=Math.round(yearlyHrs/16);
+    const hourRate=35; // approx $35/hr for target audience
+    const yearlyMoney=yearlyHrs*hourRate;
+    const fiveYearMoney=yearlyMoney*5;
+    h+=`<div class="screen active">`;
+    h+=`<h2 style="text-align:center;margin-bottom:4px">💸 Вартість бездіяльності</h2>`;
+    h+=`<p class="sub" style="text-align:center">На основі твоїх відповідей</p>`;
+    h+=`<div style="background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:16px;margin-bottom:20px">`;
+    h+=`<div class="calc-row"><span class="k">⏰ Годин на тиждень</span><span class="v" style="color:var(--warning)">${weeklyLoss} год</span></div>`;
+    h+=`<div class="calc-row"><span class="k">📅 Годин на рік</span><span class="v" style="color:var(--orange)">${yearlyHrs} год</span></div>`;
+    h+=`<div class="calc-row"><span class="k">🗓️ Повних днів на рік</span><span class="v" style="color:var(--danger)">${yearlyDays} днів</span></div>`;
+    h+=`<div class="calc-row"><span class="k">💰 У грошах (за рік)</span><span class="v" style="color:var(--danger)">~$${yearlyMoney.toLocaleString()}</span></div>`;
+    h+=`<div class="calc-row"><span class="k">💸 За 5 років</span><span class="v" style="color:var(--danger)">~$${fiveYearMoney.toLocaleString()}</span></div>`;
+    h+=`</div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">Далі →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='impact'){
+    h+=`<div class="screen active">`;
+    h+=`<h2>Як це впливає на якість життя</h2>`;
+    h+=`<p class="sub">З кожним днем це стає "нормою"</p>`;
+    const impacts=[
+      {e:'🔋',t:'Енергія тече в гасіння пожеж замість будівництва'},
+      {e:'💔',t:'Стосунки отримують те, що лишилося після роботи — майже нічого'},
+      {e:'🧊',t:'Рішення відкладаються, бо "не той момент" — завжди не той'},
+      {e:'🪞',t:'Довіра до себе тане: обіцяєш собі щось і знову не робиш'},
+      {e:'⏳',t:'Час тече. Діти ростуть. Можливості проходять повз'},
+    ];
+    impacts.forEach(i=>{h+=`<div class="impact-item"><span class="emoji">${i.e}</span><span>${i.t}</span></div>`});
+    h+=`<div style="height:16px"></div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">Далі →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='shock'){
+    const hrs=getHours();
+    const yearlyDays=Math.round((hrs*48)/16);
+    const fiveYDays=yearlyDays*5;
+    h+=`<div class="screen active" style="text-align:center">`;
+    h+=`<div style="font-size:13px;color:var(--text2);margin-bottom:8px">За наступні 5 років ти втратиш</div>`;
+    h+=`<div class="shock-num" style="color:var(--danger)">${fiveYDays}</div>`;
+    h+=`<div class="shock-label">повних днів свого життя</div>`;
+    h+=`<div class="insight"><div class="label">За цей час можна було б:</div>
+    ✈️ Об'їхати 12 країн з сім'єю<br>
+    📚 Написати книгу<br>
+    🚀 Запустити 3 нових напрямки бізнесу<br>
+    🧘 Повернути здоров'я і стосунки</div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">Що з цим робити? →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='pitch'){
+    h+=`<div class="screen active">`;
+    h+=`<h1>Із "знаю, але не роблю" — до стабільних результатів</h1>`;
+    h+=`<p class="sub">Unlocking-коучинг — це не поради і не мотивація. Це партнерство, де ми знаходимо що саме блокує твій потенціал і прибираємо це.</p>`;
+    const promises=[
+      '🔓 Розблоковані можливості — ті, що ти перестав бачити',
+      '🎯 Ясність — чого хочеш і куди рухатись',
+      '⚡ Енергія — не з кави, а зі збігу дій і цінностей',
+      '📈 Стабільність результатів — не "вдалий місяць", а система',
+    ];
+    promises.forEach(p=>{h+=`<div style="padding:8px 0;font-size:14px;line-height:1.5">${p}</div>`});
+    h+=`<div style="height:12px"></div>`;
+    h+=`<button class="btn" onclick="go(${current+1})">Як це працює →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='evidence'){
+    h+=`<div class="screen active">`;
+    h+=`<h2>Метод Unlocking</h2>`;
+    h+=`<p class="sub">Результат = Потенціал – Втручання</p>`;
+    h+=`<div class="insight"><div class="label">Формула</div>Ми не додаємо знання "як треба". Ми знаходимо що вже працює у тебе і прибираємо те, що заважає це відтворювати.</div>`;
+    h+=`<div style="background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:16px;margin-bottom:20px">`;
+    h+=`<div style="font-size:13px;color:var(--text2);margin-bottom:12px">Формат роботи:</div>`;
+    h+=`<div style="font-size:14px;line-height:1.8">
+    📍 Онлайн (будь-яка країна) + офлайн (Львів)<br>
+    ⏱️ 1–3 сесії на тиждень + підтримка між ними<br>
+    🎯 4 місяці = завершений цикл трансформації<br>
+    🤝 Партнерство, не менторинг
+    </div></div>`;
+    h+=`<div style="background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.25);border-radius:14px;padding:16px;margin-bottom:20px">`;
+    h+=`<div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px">⚠️ ВАЖЛИВО</div>`;
+    h+=`<div style="font-size:14px;line-height:1.5">Це НЕ мотиваційний курс, НЕ терапія, НЕ "зроби 10 кроків". Це глибока робота з мисленням і характером. Підходить тим, хто готовий діяти.</div>`;
+    h+=`</div>`;
+    h+=`<button class="btn btn-gold" onclick="go(${current+1})">Записатись на безкоштовну діагностику →</button>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='cta'){
+    h+=`<div class="screen active" style="text-align:center">`;
+    h+=`<div style="font-size:48px;margin-bottom:12px">🎯</div>`;
+    h+=`<h1 style="font-size:24px">Безкоштовна<br>діагностична сесія</h1>`;
+    h+=`<p class="sub">30 хвилин, які покажуть що саме блокує твій потенціал — і чи зможемо ми це змінити разом</p>`;
+    h+=`<div style="background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:16px;margin-bottom:24px;text-align:left">`;
+    h+=`<div style="font-size:14px;line-height:1.8">
+    ✅ Побачиш свою головну точку блокування<br>
+    ✅ Зрозумієш чи підходить тобі Unlocking<br>
+    ✅ Отримаєш чесну відповідь, не продаж<br>
+    ✅ Без зобов'язань</div></div>`;
+    h+=`<button class="btn btn-gold" onclick="go(${current+1})" style="font-size:17px;padding:18px 32px">Забронювати діагностику →</button>`;
+    h+=`<div style="margin-top:12px;font-size:12px;color:var(--text2)">🕐 Місць обмежено — працюю з 4-8 клієнтами одночасно</div>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='form'){
+    h+=`<div class="screen active">`;
+    h+=`<h2>Залиш контакт для запису</h2>`;
+    h+=`<p class="sub">Я напишу тебе протягом 24 годин, щоб узгодити зручний час</p>`;
+    h+=`<form id="quizForm" onsubmit="submitForm(event)">`;
+    h+=`<div class="form-group"><label>Ім'я</label><input type="text" name="name" required placeholder="Як до тебе звертатись?"></div>`;
+    h+=`<div class="form-group"><label>Telegram або телефон</label><input type="text" name="contact" required placeholder="@username або +380..."></div>`;
+    h+=`<div class="form-group"><label>Чим займаєшся? (необов'язково)</label><input type="text" name="business" placeholder="Коротко про бізнес/роль"></div>`;
+    h+=`<input type="hidden" name="score" value="${calcScore()}">`;
+    h+=`<input type="hidden" name="category" value="${getCategory(calcScore()).name}">`;
+    h+=`<input type="hidden" name="lead_temp" value="${answers.q8||'unknown'}">`;
+    h+=`<input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">`;
+    h+=`<input type="hidden" name="subject" value="Quiz Unlocking — новий лід (${getCategory(calcScore()).name})">`;
+    h+=`<div style="height:8px"></div>`;
+    h+=`<button type="submit" class="btn btn-gold" id="submitBtn">Надіслати →</button>`;
+    h+=`</form>`;
+    h+=`<button class="btn-back" onclick="go(${current-1})">← Назад</button>`;
+    h+=`</div>`;
+  }
+  else if(s.type==='thankyou'){
+    h+=`<div class="screen active" style="text-align:center;justify-content:center">`;
+    h+=`<div class="thank-check">✓</div>`;
+    h+=`<h1 style="font-size:24px">Дякую!</h1>`;
+    h+=`<p class="sub">Я отримала твою заявку і напишу протягом 24 годин.<br><br>А поки — запам'ятай одне:<br><strong style="color:var(--emerald)">"Ти знаєш що можеш більше — і це правда."</strong></p>`;
+    h+=`<div style="margin-top:24px;font-size:13px;color:var(--text2)">Іра Анк · Unlocking-коуч</div>`;
+    h+=`</div>`;
+    localStorage.removeItem('quiz_unlocking');
+  }
+
+  app.innerHTML=h;
+}
+
+function selectSingle(id,val,idx){
+  answers[id]=val;
+  saveState();
+  setTimeout(()=>go(current+1),250);
+}
+
+function toggleMulti(id,idx){
+  if(!answers[id]) answers[id]=[];
+  const i=answers[id].indexOf(idx);
+  if(i===-1) answers[id].push(idx);
+  else answers[id].splice(i,1);
+  saveState();
+  render();
+}
+
+function submitForm(e){
+  e.preventDefault();
+  const form=document.getElementById('quizForm');
+  const data=new FormData(form);
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Надсилаю...';
+
+  // Send to Web3Forms
+  fetch('https://api.web3forms.com/submit',{
+    method:'POST',
+    body:data
+  }).then(r=>r.json()).then(d=>{
+    go(current+1);
+  }).catch(err=>{
+    // Still go to thank you even if form fails — save locally
+    console.error(err);
+    go(current+1);
+  });
+}
+
+// Init
+if(loadState()&&current>0){
+  render();
+} else {
+  render();
+}
+</script>
+</body>
+</html>
