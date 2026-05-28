@@ -343,7 +343,7 @@ const screens = [
     whisper:'Добре, що ти тут. Серйозно.',
     title:'Це не тест і не опитування',
     text:'Це діагностика мислення — те, що зазвичай невидиме, але визначає 80% твоїх результатів.\n\nВідповідай першим, що спаде на думку. Так найточніше.',
-    btn:'Поїхали. Готовий?'
+    btn:'Поїхали'
   },
   // 2 — Q1
   {
@@ -570,6 +570,7 @@ function render(){
     h+=`<div class="t-display">${s.title}</div>`;
     h+=`<p class="t-body" style="white-space:pre-line">${s.text}</p>`;
     h+=`<div class="divider"></div>`;
+    h+=`<p style="text-align:center;font-family:var(--serif);font-size:22px;color:var(--ink2);margin-bottom:12px;font-style:italic;letter-spacing:0.02em;">Готовий?</p>`;
     h+=`<button class="btn btn-em" onclick="go(${cur+1})">${s.btn}</button>`;
     if(cur>0) h+=`<button class="btn-ghost" onclick="go(${cur-1})">← Назад</button>`;
     h+=`</div>`;
